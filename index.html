@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Blind Test</title>
+<meta name="description" content="Color Blind Test">
+<meta name="author" content="Heretool">
+<style>
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-display: swap;
+}
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 70px
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f5f9;
+    color: #333;
+    line-height: 1.5;
+    padding-top: 70px;
+}
+input, textarea, select {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+}
+select:focus, input:focus, textarea:focus {
+    outline: none;
+    border-color: #7367f0 !important;
+    box-shadow: 0 0 0 2px rgba(115,103,240,0.1)
+}
+main, .content {
+    padding: 0 20px;
+    max-width: 1100px;
+    margin: 0 auto
+}
+main {
+    margin-bottom: 60px
+}
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 20px;
+    padding: 30px 20px 40px 20px
+}
+.hero h1 {
+    font-family: -apple-system, BlinkMacSystemFont, Calibri, Roboto, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.25;
+    max-width: 860px
+}
+.hero p {
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 750px
+}
+.tool-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif
+}
+.remind {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: #fff;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s
+}
+.remind.error {
+    background: rgba(220,38,38,0.9)
+}
+.remind.success {
+    background: rgba(22,163,74,0.9)
+}
+.test-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2rem
+}
+
+@media(max-width:900px) {
+.test-wrapper {
+    grid-template-columns: 1fr
+}
+}
+.test-card {
+    background: #f8fafc;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid #e2e8f0
+}
+.plate-box {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 1.5rem;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    overflow: hidden;
+    position: relative
+}
+#plate-img {
+    width: 400px;
+    height: 400px;
+    object-fit: none;
+    object-position: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 1rem
+}
+.test-input {
+    padding: 12px;
+    border: 2px solid #cbd5e0;
+    border-radius: 8px;
+    width: 120px;
+    font-size: 18px;
+    text-align: center;
+    outline: none;
+    transition: 0.2s
+}
+.test-input:focus {
+    border-color: #7367f0
+}
+.btn-submit {
+    padding: 12px 25px;
+    background: #7367f0;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer
+}
+.btn-reset {
+    background: #f1f5f9;
+    color: #475569;
+    margin-top: 15px;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px
+}
+.simulator-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 12px
+}
+.upload-zone {
+    border: 2px dashed #cbd5e0;
+    margin-top: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 1rem
+}
+.sim-preview {
+    width: 100%;
+    min-height: 150px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    margin-top: 15px;
+    overflow: hidden
+}
+.sim-preview canvas {
+    width: 100%;
+    height: auto;
+    display: block
+}
+.type-select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+    font-size: 14px
+}
+#result-display {
+    display: none;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 1rem;
+    border-left: 5px solid #7367f0;
+    text-align: left
+}
+.disclaimer {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 15px;
+    line-height: 1.4
+}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero" id="tool">
+    <h1>Color Blind Test</h1>
+    <p>Take a quick and reliable online color blind test using professional Ishihara plates to check for red-green or total color vision deficiency.</p>
+  </section>
+  <section class="tool-container">
+    <div class="test-wrapper">
+      <div class="test-main">
+        <div class="test-card" id="test-screen">
+          <div class="progress" style="margin-bottom:10px;font-size:14px;color:#64748b">Plate <span id="current-step">1</span> of 10</div>
+          <div class="plate-box"> <img id="plate-img" src="ishihara/1.webp" alt="Ishihara Plate"> </div>
+          <p style="font-size:15px;color:#1e293b;margin-bottom:15px">What number do you see in the circle?</p>
+          <div class="input-group">
+            <input type="text" id="answer-input" class="test-input" autocomplete="off">
+            <button class="btn-submit" onclick="nextPlate()">Next</button>
+          </div>
+          <button class="btn-reset" onclick="resetTest()">Restart Test</button>
+          <div id="result-display"></div>
+        </div>
+      </div>
+      <div class="side-panel">
+        <div class="simulator-card">
+          <h3 style="margin-top:0;font-size:16px">Vision Simulator</h3>
+          <p style="font-size:14px;color:#64748b">Upload an image to see how it appears to color blind users.</p>
+          <div class="upload-zone" onclick="document.getElementById('img-up').click()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <br>
+            <small>Click to Upload</small>
+            <input type="file" id="img-up" hidden accept="image/*">
+          </div>
+          <select class="type-select" id="vision-type" onchange="simulate()">
+            <option value="normal">Normal Vision</option>
+            <option value="deuteranopia">Deuteranopia (Red-Green)</option>
+            <option value="protanopia">Protanopia (Red-Green)</option>
+            <option value="achromatopsia">Achromatopsia (Total)</option>
+          </select>
+          <div class="sim-preview" id="sim-container"></div>
+        </div>
+        <p class="disclaimer"><b>Disclaimer:</b> This test is for screening purposes only. It is not a professional medical diagnosis. If you suspect vision issues, please consult an ophthalmologist. (Ishihara's Test plates from mk.bcgsc.ca)</p>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="remind" class="remind"></div>
+<script>const r=document.getElementById('remind'),pi=document.getElementById('plate-img'),cs=document.getElementById('current-step'),ai=document.getElementById('answer-input'),rd=document.getElementById('result-display'),ts=document.getElementById('test-screen'),iu=document.getElementById('img-up'),sc=document.getElementById('sim-container'),vt=document.getElementById('vision-type');let step=1,correct=0;const plates=[{v:12},{v:8},{v:6},{v:29},{v:57},{v:5},{v:3},{v:15},{v:74},{v:2}];function msg(m,t){r.innerText=m;r.className='remind '+(t?'success':'error');r.style.display='block';setTimeout(()=>{r.style.display='none'},2500)}function nextPlate(){const val=ai.value.trim();if(!val&&step<10){msg('Please enter the number you see','error');return}if(parseInt(val)===plates[step-1].v)correct++;if(step<10){step++;cs.innerText=step;pi.src=`ishihara/${step}.webp`;ai.value=''}else{showResult()}}function showResult(){let res='',cls='success';if(correct>=9)res='<b>Normal Vision:</b> You correctly identified '+correct+'/10 plates. No significant deficiency detected.';else if(correct>=6)res='<b>Mild Deficiency:</b> You identified '+correct+'/10. There may be a slight red-green deficiency.';else{res='<b>Strong Deficiency:</b> You identified '+correct+'/10. This suggests a significant color vision deficiency.';cls='error'}rd.innerHTML=res+'<br><br><small>We recommend consulting an eye specialist for a comprehensive exam.</small>';rd.style.display='block';ts.querySelector('.plate-box').style.display='none';ts.querySelector('.input-group').style.display='none';ts.querySelector('p').style.display='none';msg('Test Completed!',true)}function resetTest(){step=1;correct=0;cs.innerText='1';pi.src='ishihara/1.webp';ai.value='';rd.style.display='none';ts.querySelector('.plate-box').style.display='flex';ts.querySelector('.input-group').style.display='flex';ts.querySelector('p').style.display='block'}let sourceImg=null;iu.onchange=e=>{const f=e.target.files[0];if(f){const reader=new FileReader();reader.onload=ev=>{sourceImg=new Image();sourceImg.onload=()=>simulate();sourceImg.src=ev.target.result};reader.readAsDataURL(f)}};function simulate(){if(!sourceImg)return;const cvs=document.createElement('canvas'),ctx=cvs.getContext('2d'),type=vt.value;const maxW=sc.clientWidth;const scale=maxW/sourceImg.width;cvs.width=maxW;cvs.height=sourceImg.height*scale;ctx.drawImage(sourceImg,0,0,cvs.width,cvs.height);const data=ctx.getImageData(0,0,cvs.width,cvs.height);const d=data.data;for(let i=0;i<d.length;i+=4){let r=d[i],g=d[i+1],b=d[i+2];if(type==='deuteranopia'){d[i]=r*0.625+g*0.375;d[i+1]=r*0.7+g*0.3;d[i+2]=g*0.3+b*0.7}else if(type==='protanopia'){d[i]=r*0.567+g*0.433;d[i+1]=r*0.558+g*0.442;d[i+2]=g*0.242+b*0.758}else if(type==='achromatopsia'){let v=r*0.299+g*0.587+b*0.114;d[i]=d[i+1]=d[i+2]=v}}ctx.putImageData(data,0,0);sc.innerHTML='';sc.appendChild(cvs)}</script>
+</body>
+</html>
